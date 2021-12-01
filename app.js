@@ -81,19 +81,14 @@ const schema = new GraphQLSchema({ query: rootQuery })
 const app = express()
 
 app.use('/graphql', cors({
-    origin: 'http://localhost:8000',
+    origin: 'https://my-recipe-book-webapp.herokuapp.com',//http://localhost:8000
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
 }), graphqlHTTP({
     schema: schema,
     graphiql: true
 }))
 
-const PORT = 3001
-
-// app.use(cors({
-//     origin: 'http://localhost:8000',
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
-// }));
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log("GraphQL Server Running")

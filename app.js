@@ -4,6 +4,7 @@ const graphql = require("graphql");
 const { GraphQLSchema, GraphQLObjectType, GraphQLInt, GraphQLString } = graphql;
 const recipeScraper = require("recipe-scraper");
 const cors = require('cors');
+require('dotenv').config()
 
 const RecipeTimings = new GraphQLObjectType({
     name: 'RecipeTimings',
@@ -81,14 +82,14 @@ const schema = new GraphQLSchema({ query: rootQuery })
 const app = express()
 
 app.use('/graphql', cors({
-    origin: 'https://my-recipe-book-webapp.herokuapp.com',//http://localhost:8000
+    origin: process.env.GRAPHQL_ORIGIN,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
 }), graphqlHTTP({
     schema: schema,
-    graphiql: true
+    graphiql: process.env.USE_GRAPHIQL==='true'
 }))
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
     console.log("GraphQL Server Running")
